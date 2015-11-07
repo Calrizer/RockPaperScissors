@@ -4,7 +4,7 @@ program rock_paper_scissors;
 
 uses crt;
 
-const moves : array[1..3] of string = ('Rock', 'Paper', 'Scissors'); {Declaration of array with indexes corresponding to strings.}
+const moves : array[1..3] of string = ('Rock', 'Paper', 'Scissors'); {Declaration of array of move strings.}
 
 var input,index,test:integer;
 choice:string;
@@ -23,8 +23,9 @@ begin
      repeat
         readln(choice);
         test := 0;
-        val(choice, input, test); {If non integer, test returns '1' to detect invalid input,}
-        if (input > 3) xor (input < 1) xor (test = 1) then
+        input := 0;
+        val(choice, input, test); {If non integer, test returns '1' to detect invalid input.}
+        if (input > 3) xor (input < 1) then
         begin
              writeln;
              writeln('Invalid value! Try again...');
@@ -34,7 +35,7 @@ begin
 
      Randomize;
 
-     index := Random(3) + 1; {Generates random number to get array index. Possibility to implement loop for more random chance.}
+     index := Random(3) + 1; {Generates random number to get array index.}
 
      writeln('You said: ', moves[input]);
      writeln;
@@ -47,7 +48,8 @@ begin
      end
      else
      begin
-         if ((input = 1) and (index = 3)) xor ((input = 2) and (index = 1)) xor ((input = 3) and (index = 2)) then {Trys all possible ways of winning, returns true.}
+         if ((input = 1) and (index = 3)) xor ((input = 2) and (index = 1)) xor ((input = 3) and (index = 2)) then
+         {Trys all possible ways of winning, returns true.}
          begin
             writeln('You won!');
             writeln;
