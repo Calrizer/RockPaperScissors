@@ -1,13 +1,15 @@
+{Rock, Paper, Scissors, a basic Pascal program by Callum Drain}
+
 program rock_paper_scissors;
 
 uses crt;
 
-const moves : array[1..3] of string = ('Rock', 'Paper', 'Scissors');
+const moves : array[1..3] of string = ('Rock', 'Paper', 'Scissors'); {Declaration of array with indexes corresponding to strings.}
 
-var input,index:integer;
+var input,index,test:integer;
 choice:string;
 
-procedure game;
+procedure game; {Game logic written here, so can be called when repeating the game.}
 
 begin
      TextColor(White);
@@ -19,39 +21,39 @@ begin
      writeln('3 for Scissors...');
      writeln;
      repeat
-        readln(input);
-        if (input > 3) xor (input < 1) then
+        readln(choice);
+        test := 0;
+        val(choice, input, test); {If non integer, test returns '1' to detect invalid input,}
+        if (input > 3) xor (input < 1) xor (test = 1) then
         begin
              writeln;
              writeln('Invalid value! Try again...');
         end;
         writeln;
-     until input in [1..3];
+     until (input in [1..3]) and (test = 0); {Stops iterating when an integer value between 1 and 3 is detected.}
 
      Randomize;
 
-     repeat
-           index := Random(4);
-     until index <> 0;
+     index := Random(3) + 1; {Generates random number to get array index. Possibility to implement loop for more random chance.}
 
      writeln('You said: ', moves[input]);
      writeln;
      writeln('Computer says: ', moves[index]);
      writeln;
 
-     if index = input then
+     if index = input then {Returns true if both the user imput and random number are the same.}
      begin
           writeln('You drew!');
      end
      else
      begin
-         if ((input = 1) and (index = 3)) xor ((input = 2) and (index = 1)) xor ((input = 3) and (index = 2)) then
+         if ((input = 1) and (index = 3)) xor ((input = 2) and (index = 1)) xor ((input = 3) and (index = 2)) then {Trys all possible ways of winning, returns true.}
          begin
             writeln('You won!');
             writeln;
             writeln(moves[input], ' beats ', moves[index]);
         end
-        else
+        else {If above returns false, player has lost.}
         begin
             writeln('You lost!');
             writeln;
@@ -63,13 +65,15 @@ begin
 
 end;
 
+{Start of main class.}
+
 begin
     repeat
-        game;
+        game; {Calls game procedure.}
         writeln('Play again? Type "yes" or "no"...');
         repeat
             writeln;
             readln(choice);
-        until (choice = 'yes') xor (choice = 'no');
-    until choice = 'no';
+        until (choice = 'yes') xor (choice = 'no'); {Iterates until the input is 'yes' or 'no'.}
+    until choice = 'no'; {Stops interating if the input is 'no'.}
 end.
